@@ -85,13 +85,13 @@ let rec tile ((dx,dy):coord) (p:coded_pic) : coded_pic list list =
   tile_helper_col (dx, dy) (0,0) p
 
 let tri_aligned ((x1,y1):coord) ((x2,y2):coord) ((x3,y3):coord):bool =
-  List.mem (x2,y2) (segment (x1,y1) (x3,y3))
+  List.mem (x2,y2) (segment (x1,y1) (x3,y3)) || List.mem (x1,y1) (segment (x2,y2) (x3,y3)) || List.mem (x3,y3) (segment (x1,y1) (x2,y2))
 
 let rec compress (p:coded_pic):coded_pic =
   match p with
   | [] -> []
   | first::second::third::tl ->
     if tri_aligned first second third
-    then first::third::compress tl
-    else first::second::third::compress tl
+    then compress (first::third::tl)
+    else first::compress(second::third::tl)
   | _->p
