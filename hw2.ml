@@ -1,7 +1,9 @@
-
+(*
+Max Shi
+2/10/2020
+I pledge my honor that I have abided by the Stevens Honor System.
+*)
 type ('a, 'b) dTree = Leaf of 'b | Node of 'a * ('a, 'b) dTree * ('a, 'b) dTree
-
-let leaftest = Leaf(6)
 
 let tLeft = Node('w',
                   Node('x',
@@ -27,8 +29,8 @@ let rec dTree_paths = function
   | Leaf(_) -> [[]]
   | Node(_, lt, rt) ->
     let (leftpaths, rightpaths) = (dTree_paths lt, dTree_paths rt)
-    in let leftT = map (fun l -> 0::l) leftpaths
-    in let rightT = map (fun l -> 1::l) rightpaths
+    in let leftT = List.map (fun l -> 0::l) leftpaths
+    in let rightT = List.map (fun l -> 1::l) rightpaths
     in leftT @ rightT
 
 let rec dTree_is_perfect = function
@@ -41,7 +43,7 @@ let rec dTree_map (f:'a -> 'a) (g: 'b -> 'b) = function
   | Node(x, lt, rt) -> Node(f x, dTree_map f g lt, dTree_map f g rt)
 
 let rec list_to_tree = function
-  | [] -> failwith "invalid input"
+  | [] -> Leaf(0)
   | [x] -> Node(x, Leaf(0), Leaf(0))
   | h::t -> Node(h, list_to_tree t, list_to_tree t)
 
@@ -52,7 +54,7 @@ let rec replace_leaf_helper (tree: ('a,'b) dTree) ((path, n) : int list * int) :
     if h=0
     then Node(x, replace_leaf_helper lt (t, n), rt)
     else Node(x, lt, replace_leaf_helper rt (t, n))
-  | Leaf(_), _ -> failwith "oops"
+  | Leaf(_), _ -> failwith "Invalid tree or path"
 
 let rec replace_leaf_at tree = function
   | [] -> tree

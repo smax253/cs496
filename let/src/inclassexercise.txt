@@ -1,0 +1,8 @@
+1. expr: Sub(Int(5),Int(4)), IsZero(Int(0))
+2. env: ExtendEnv("x", NumVal(5), EmptyEnv)
+3. exp_val: NumVal(5)
+4. exp_val result: Ok(NumVal(5))
+5. int result: Ok(5)
+6. env result: Ok(ExtendEnv("x",NumVal(5), EmptyEnv))
+7. int ea_result: return @@ 3
+8. env ea_result: return @@ EmptyEnv
